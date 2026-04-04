@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSF Score Calculator — NSCLC Leptomeningeal Metastasis</title>
+<meta name="description" content="Cerebral Spinal System Failure Score online calculator for prognostic risk stratification of leptomeningeal metastasis from NSCLC. C-index 0.741, n=123.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f7f7f5;
+    --bg3: #f0efe9;
+    --text: #1a1a18;
+    --text2: #555551;
+    --text3: #888882;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --green-bg: #EAF3DE; --green-border: #97C459; --green-text: #27500A;
+    --amber-bg: #FAEEDA; --amber-border: #EF9F27; --amber-text: #633806;
+    --red-bg:   #FCEBEB; --red-border:   #F09595; --red-text:   #791F1F;
+    --blue-bg:  #E6F1FB; --blue-border:  #378ADD; --blue-text:  #0C447C;
+    --d1: #E1F5EE; --d1t: #085041;
+    --d2: #E6F1FB; --d2t: #0C447C;
+    --d3: #FAEEDA; --d3t: #633806;
+    --d4: #EEEDFE; --d4t: #3C3489;
+    --d5: #FAECE7; --d5t: #712B13;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a; --bg2: #252523; --bg3: #2e2e2c;
+      --text: #f0efe9; --text2: #b0afa8; --text3: #777771;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
+      --green-bg:#173404;--green-border:#3B6D11;--green-text:#C0DD97;
+      --amber-bg:#412402;--amber-border:#854F0B;--amber-text:#FAC775;
+      --red-bg:#501313;--red-border:#A32D2D;--red-text:#F7C1C1;
+      --blue-bg:#042C53;--blue-border:#185FA5;--blue-text:#B5D4F4;
+      --d1:#04342C;--d1t:#9FE1CB; --d2:#042C53;--d2t:#B5D4F4;
+      --d3:#412402;--d3t:#FAC775; --d4:#26215C;--d4t:#CECBF6;
+      --d5:#4A1B0C;--d5t:#F5C4B3;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    background:var(--bg3);color:var(--text);min-height:100vh;line-height:1.5;
+    font-size:15px}
+  a{color:var(--blue-text)}
+
+  /* Layout */
+  .page{max-width:700px;margin:0 auto;padding:24px 16px 64px}
+
+  /* Header */
+  .site-header{background:var(--bg);border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:100}
+  .header-inner{max-width:700px;margin:0 auto;padding:0 16px;
+    display:flex;align-items:center;gap:12px;height:52px}
+  .header-logo{width:28px;height:28px;background:var(--d4);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:600;color:var(--d4t);flex-shrink:0}
+  .header-title{font-size:14px;font-weight:500}
+  .header-sub{font-size:12px;color:var(--text3);margin-left:4px}
+  .score-pill{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .score-num{font-size:22px;font-weight:500;font-variant-numeric:tabular-nums;
+    line-height:1;transition:color 0.2s}
+  .score-of{font-size:12px;color:var(--text3)}
+  .risk-chip{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;
+    border:1px solid;transition:all 0.2s;white-space:nowrap}
+  .chip-nd{background:var(--bg2);border-color:var(--border2);color:var(--text3)}
+  .chip-low{background:var(--green-bg);border-color:var(--green-border);color:var(--green-text)}
+  .chip-inter{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber-text)}
+  .chip-high{background:var(--red-bg);border-color:var(--red-border);color:var(--red-text)}
+
+  /* Hero */
+  .hero{background:var(--bg);border-radius:var(--radius);
+    border:1px solid var(--border);padding:20px 24px;margin-bottom:16px}
+  .hero h1{font-size:17px;font-weight:600;margin-bottom:4px}
+  .hero p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+  .hero-stats{display:flex;gap:16px;flex-wrap:wrap}
+  .h-stat{font-size:12px;color:var(--text3)}
+  .h-stat strong{color:var(--text);font-weight:500}
+
+  /* Section cards */
+  .dim-card{background:var(--bg);border-radius:var(--radius);
+    border:1px solid var(--border);padding:16px 20px;margin-bottom:12px;
+    transition:opacity 0.2s}
+  .dim-card.locked{opacity:0.38;pointer-events:none}
+  .dim-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .dim-dot{width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:600;flex-shrink:0}
+  .dim-name{font-size:14px;font-weight:500;flex:1}
+  .dim-score-badge{font-size:12px;color:var(--text3);background:var(--bg2);
+    padding:2px 8px;border-radius:12px;border:1px solid var(--border)}
+
+  /* Variable rows */
+  .var-block{padding:12px 0;border-top:1px solid var(--border)}
+  .var-block:first-child{border-top:none}
+  .var-q{font-size:13px;font-weight:500;margin-bottom:3px;color:var(--text)}
+  .var-hint{font-size:11px;color:var(--text3);margin-bottom:8px;line-height:1.5}
+  .btn-group{display:flex;flex-wrap:wrap;gap:6px}
+  .opt{padding:7px 14px;border-radius:20px;border:1px solid var(--border2);
+    background:var(--bg);color:var(--text2);font-size:12px;cursor:pointer;
+    transition:all 0.15s;line-height:1.3;-webkit-appearance:none;appearance:none}
+  .opt:hover{background:var(--bg2)}
+  .opt.sel-green{background:var(--green-bg);border-color:var(--green-border);color:var(--green-text);font-weight:500}
+  .opt.sel-amber{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber-text);font-weight:500}
+  .opt.sel-red{background:var(--red-bg);border-color:var(--red-border);color:var(--red-text);font-weight:500}
+  .opt-mol{text-align:left;border-radius:var(--radius-sm);padding:9px 14px;
+    display:block;width:100%}
+
+  /* Gatekeeper alert */
+  .gate-box{background:var(--red-bg);border:1px solid var(--red-border);
+    border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;
+    color:var(--red-text);margin-top:10px;display:none;line-height:1.5}
+
+  /* Progress dots */
+  .progress-track{display:flex;gap:6px;align-items:center;
+    margin-bottom:16px;flex-wrap:wrap}
+  .prog-dot{width:8px;height:8px;border-radius:50%;
+    background:var(--border2);transition:background 0.2s;flex-shrink:0}
+  .prog-dot.done{background:var(--green-border)}
+  .prog-label{font-size:11px;color:var(--text3);margin-left:4px}
+
+  /* Result */
+  .result-wrap{margin-top:16px;display:none}
+  .result-card{border-radius:var(--radius);border:1px solid;padding:20px 24px}
+  .res-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+  .res-icon{width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;flex-shrink:0}
+  .res-title{font-size:18px;font-weight:600;margin-bottom:2px}
+  .res-sub{font-size:13px;opacity:0.7}
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+  .s-box{border-radius:var(--radius-sm);padding:10px 12px;
+    background:rgba(255,255,255,0.25)}
+  .s-val{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
+  .s-lbl{font-size:11px;opacity:0.65;margin-top:2px}
+  .dim-row{font-size:12px;opacity:0.7;margin-bottom:14px;line-height:1.8}
+  .dim-row span{margin-right:14px;white-space:nowrap}
+  .guidance-box{border-radius:var(--radius-sm);padding:12px 14px;
+    font-size:13px;line-height:1.65;background:rgba(255,255,255,0.2)}
+  .guidance-title{font-weight:600;margin-bottom:4px;font-size:12px;
+    text-transform:uppercase;letter-spacing:0.04em;opacity:0.6}
+
+  /* Action bar */
+  .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .btn-reset{flex:1;min-width:120px;padding:10px;border-radius:var(--radius-sm);
+    border:1px solid var(--border2);background:transparent;color:var(--text2);
+    font-size:13px;cursor:pointer}
+  .btn-reset:hover{background:var(--bg2)}
+  .btn-share{flex:1;min-width:120px;padding:10px;border-radius:var(--radius-sm);
+    border:1px solid var(--blue-border);background:var(--blue-bg);
+    color:var(--blue-text);font-size:13px;cursor:pointer;font-weight:500}
+
+  /* Footer */
+  .footer{text-align:center;font-size:11px;color:var(--text3);
+    margin-top:32px;line-height:1.7;padding:0 16px}
+  .footer a{color:var(--text3)}
+
+  /* Mobile tweaks */
+  @media(max-width:480px){
+    .stats-grid{grid-template-columns:1fr 1fr}
+    .header-sub{display:none}
+    .hero-stats{gap:10px}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-logo">CSF</div>
+    <span class="header-title">CSF Score</span>
+    <span class="header-sub">Calculator</span>
+    <div class="score-pill">
+      <span class="score-num" id="hdr-score" style="color:var(--text3)">—</span>
+      <span class="score-of" id="hdr-of"></span>
+      <span class="risk-chip chip-nd" id="hdr-chip">Incomplete</span>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Cerebral Spinal System Failure Score</h1>
+    <p>A prognostic scoring system for leptomeningeal metastasis (LM) from non-small cell lung cancer (NSCLC). The acronym CSF is intentional: it designates both <em>Cerebral Spinal (system) Failure</em> — the conceptual framework — and <em>cerebrospinal fluid</em>, the biological medium at the center of the disease process. Score five pathophysiologically distinct dimensions to stratify patients into low, intermediate, or high risk groups.</p>
+    <div class="hero-stats">
+      <div class="h-stat"><strong>n = 123</strong> cytology-confirmed NSCLC-LM</div>
+      <div class="h-stat"><strong>C-index 0.741</strong> (95% CI 0.706–0.776)</div>
+      <div class="h-stat"><strong>Log-rank p &lt; 0.001</strong></div>
+      <div class="h-stat"><strong>Constructed entirely a priori</strong></div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-track" id="progress-track">
+    <div class="prog-dot" id="pdot-kps" title="KPS"></div>
+    <div class="prog-dot" id="pdot-lmcnd" title="LM-CND"></div>
+    <div class="prog-dot" id="pdot-ecpd" title="Extracranial PD"></div>
+    <div class="prog-dot" id="pdot-mol" title="Molecular Engine"></div>
+    <div class="prog-dot" id="pdot-mri" title="MRI pattern"></div>
+    <div class="prog-dot" id="pdot-bm" title="Brain mets"></div>
+    <div class="prog-dot" id="pdot-ei" title="Evans Index"></div>
+    <div class="prog-dot" id="pdot-op" title="Opening pressure"></div>
+    <div class="prog-dot" id="pdot-tmi" title="TMI"></div>
+    <span class="prog-label" id="prog-label">0 / 9 variables</span>
+  </div>
+
+  <!-- D1 Host Resilience -->
+  <div class="dim-card" id="card-d1">
+    <div class="dim-head">
+      <div class="dim-dot" style="background:var(--d1);color:var(--d1t)">D1</div>
+      <div class="dim-name">Host Resilience</div>
+      <div class="dim-score-badge" id="badge-d1">0 – 3 pts</div>
+    </div>
+
+    <div class="var-block">
+      <div class="var-q">Karnofsky Performance Status (KPS)</div>
+      <div class="btn-group">
+        <button class="opt" onclick="pick('kps',0,this,'green')" data-k="kps">≥ 80 &nbsp;(0 pts)</button>
+        <button class="opt" onclick="pick('kps',1,this,'amber')" data-k="kps">60 – 70 &nbsp;(1 pt)</button>
+        <button class="opt" onclick="pick('kps',2,this,'red')" data-k="kps">&lt; 60 &nbsp;(2 pts ★)</button>
+      </div>
+      <div class="gate-box" id="gate-box">
+        <strong>★ KPS &lt; 60 — Dual Gatekeeper Activated</strong><br>
+        This patient is classified directly as <strong>High Risk</strong> regardless of total score (while also contributing 2 points to the dimensional tally). Scoring of remaining dimensions is disabled; their values are not required for risk stratification.
+      </div>
+    </div>
+
+    <div class="var-block">
+      <div class="var-q">LM-specific core neurological deficit (LM-CND)</div>
+      <div class="var-hint">At least one major cranial nerve or spinal cord deficit attributable to LM</div>
+      <div class="btn-group">
+        <button class="opt" onclick="pick('lmcnd',0,this,'green')" data-k="lmcnd">Absent &nbsp;(0 pts)</button>
+        <button class="opt" onclick="pick('lmcnd',1,this,'red')" data-k="lmcnd">Present &nbsp;(1 pt)</button>
+      </div>
+    </div>
+
+    <div class="var-block">
+      <div class="var-q">Extracranial disease progression at LM diagnosis</div>
+      <div class="btn-group">
+        <button class="opt" onclick="pick('ecpd',0,this,'green')" data-k="ecpd">Stable / responding &nbsp;(0 pts)</button>
+        <button class="opt" onclick="pick('ecpd',1,this,'red')" data-k="ecpd">Progressive &nbsp;(1 pt)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- D2 Molecular Engine -->
+  <div class="dim-card" id="card-d2">
+    <div class="dim-head">
+      <div class="dim-dot" style="background:var(--d2);color:var(--d2t)">D2</div>
+      <div class="dim-name">Molecular Engine</div>
+      <div class="dim-score-badge" id="badge-d2">0 – 2 pts</div>
+    </div>
+    <div class="var-block" style="border-top:none">
+      <div class="var-q">CNS-penetrant TKI availability with LM-specific evidence</div>
+      <div class="var-hint">Score reflects therapeutic access, not mutation status alone (Zhang et al., Front Oncol 2022)</div>
+      <div class="btn-group" style="flex-direction:column">
+        <button class="opt opt-mol" onclick="pick('mol',0,this,'green')" data-k="mol">
+          <strong>0 pts</strong> — Effective CNS-active TKI available<br>
+          <span style="font-size:11px;opacity:0.75">e.g. 1st-line osimertinib (EGFR-sensitizing), lorlatinib (ALK/ROS1)</span>
+        </button>
+        <button class="opt opt-mol" onclick="pick('mol',1,this,'amber')" data-k="mol">
+          <strong>1 pt</strong> — Suboptimal or uncertain CNS activity<br>
+          <span style="font-size:11px;opacity:0.75">e.g. later-line TKI, limited LM-specific clinical data</span>
+        </button>
+        <button class="opt opt-mol" onclick="pick('mol',2,this,'red')" data-k="mol">
+          <strong>2 pts</strong> — No effective CNS-active option<br>
+          <span style="font-size:11px;opacity:0.75">Non-AGA patients or exhausted targeted therapy lines</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- D3 Anatomical Burden -->
+  <div class="dim-card" id="card-d3">
+    <div class="dim-head">
+      <div class="dim-dot" style="background:var(--d3);color:var(--d3t)">D3</div>
+      <div class="dim-name">Anatomical Burden</div>
+      <div class="dim-score-badge" id="badge-d3">0 – 2 pts</div>
+    </div>
+    <div class="var-block" style="border-top:none">
+      <div class="var-q">MRI leptomeningeal enhancement pattern</div>
+      <div class="var-hint">EANO-ESMO typology — Type A: linear; Type B: nodular; Type C: combined (Le Rhun et al., Ann Oncol 2017)</div>
+      <div class="btn-group">
+        <button class="opt" onclick="pick('mri',0,this,'green')" data-k="mri">Linear / Type A &nbsp;(0 pts)</button>
+        <button class="opt" onclick="pick('mri',1,this,'red')" data-k="mri">Nodular or combined / Type B–C &nbsp;(1 pt)</button>
+      </div>
+    </div>
+    <div class="var-block">
+      <div class="var-q">Parenchymal brain metastases</div>
+      <div class="btn-group">
+        <button class="opt" onclick="pick('bm',0,this,'green')" data-k="bm">&lt; 4 lesions &nbsp;(0 pts)</button>
+        <button class="opt" onclick="pick('bm',1,this,'red')" data-k="bm">≥ 4 lesions or miliary pattern &nbsp;(1 pt)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- D4 Fluid Dynamics -->
+  <div class="dim-card" id="card-d4">
+    <div class="dim-head">
+      <div class="dim-dot" style="background:var(--d4);color:var(--d4t)">D4</div>
+      <div class="dim-name">Fluid Dynamics</div>
+      <div class="dim-score-badge" id="badge-d4">0 – 2 pts</div>
+    </div>
+    <div class="var-block" style="border-top:none">
+      <div class="var-q">Evans Index (EI) on baseline MRI</div>
+      <div class="var-hint">EI = max width of frontal horns ÷ max internal skull diameter (axial view). Threshold validated in LM by Le Rhun et al., Neurology 2024.</div>
+      <div class="btn-group">
+        <button class="opt" onclick="pick('ei',0,this,'green')" data-k="ei">EI &lt; 0.27 &nbsp;(0 pts)</button>
+        <button class="opt" onclick="pick('ei',1,this,'red')" data-k="ei">EI ≥ 0.27 &nbsp;(1 pt)</button>
+      </div>
+    </div>
+    <div class="var-block">
+      <div class="var-q">CSF opening pressure / symptomatic hydrocephalus</div>
+      <div class="var-hint">Score 1 pt if OP &gt; 250 mmH₂O <em>or</em> clinical + radiographic symptomatic hydrocephalus requiring neurosurgical consultation (regardless of recorded OP).</div>
+      <div class="btn-group">
+        <button class="opt" onclick="pick('op',0,this,'green')" data-k="op">OP ≤ 250 mmH₂O, no symptomatic hydrocephalus &nbsp;(0 pts)</button>
+        <button class="opt" onclick="pick('op',1,this,'red')" data-k="op">OP &gt; 250 mmH₂O or symptomatic hydrocephalus &nbsp;(1 pt)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- D5 Biological Toxicity -->
+  <div class="dim-card" id="card-d5">
+    <div class="dim-head">
+      <div class="dim-dot" style="background:var(--d5);color:var(--d5t)">D5</div>
+      <div class="dim-name">Biological Toxicity</div>
+      <div class="dim-score-badge" id="badge-d5">0 – 1 pt</div>
+    </div>
+    <div class="var-block" style="border-top:none">
+      <div class="var-q">Tumor Marker Index (TMI) &gt; 3</div>
+      <div class="var-hint">
+        TMI = CSF tumor marker ÷ paired serum marker (same diagnostic episode).<br>
+        Score 1 pt only if <strong>both</strong> criteria are met: TMI &gt; 3 <em>and</em> absolute CSF value exceeds the laboratory upper reference limit.<br>
+        Marker hierarchy: CEA (adenocarcinoma) → CYFRA 21-1 (squamous) → NSE (neuroendocrine features).
+      </div>
+      <div class="btn-group">
+        <button class="opt" onclick="pick('tmi',0,this,'green')" data-k="tmi">TMI ≤ 3, or dual criterion not met &nbsp;(0 pts)</button>
+        <button class="opt" onclick="pick('tmi',1,this,'red')" data-k="tmi">TMI &gt; 3 AND CSF value &gt; upper reference limit &nbsp;(1 pt)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="result-wrap" id="result-wrap">
+    <div class="result-card" id="result-card">
+      <div class="res-head">
+        <div class="res-icon" id="res-icon"></div>
+        <div>
+          <div class="res-title" id="res-title"></div>
+          <div class="res-sub" id="res-sub"></div>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="s-box">
+          <div class="s-val" id="rs-score">—</div>
+          <div class="s-lbl">CSF Score total</div>
+        </div>
+        <div class="s-box">
+          <div class="s-val" id="rs-mos">—</div>
+          <div class="s-lbl">Median OS (cohort)</div>
+        </div>
+        <div class="s-box">
+          <div class="s-val">0.741</div>
+          <div class="s-lbl">C-index (n=123)</div>
+        </div>
+      </div>
+      <div class="dim-row" id="dim-row"></div>
+      <div class="guidance-box" id="guidance-box">
+        <div class="guidance-title">Clinical decision framework</div>
+        <div id="guidance-text"></div>
+      </div>
+      <div class="actions">
+        <button class="btn-reset" onclick="resetAll()">↺ Reset</button>
+        <button class="btn-share" onclick="copyLink()">⎘ Copy shareable link</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><strong>CSF Score v1.0</strong> · For research and clinical decision support only · Not a substitute for clinical judgment</p>
+    <p style="margin-top:4px">Constructed entirely a priori · C-index 0.741 (95% CI 0.706–0.776) · n=123 cytology-confirmed NSCLC-LM</p>
+    <p style="margin-top:4px">Risk strata: Low (0–2) mOS 20.5 m · Intermediate (3–6) mOS 12.6 m · High (≥7 or KPS&lt;60) mOS 4.5 m · Log-rank p&lt;0.001</p>
+    <p style="margin-top:8px"><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> · Please cite the original publication when using this tool</p>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const S = {kps:null,lmcnd:null,ecpd:null,mol:null,mri:null,bm:null,ei:null,op:null,tmi:null};
+const ALL_KEYS = ['kps','lmcnd','ecpd','mol','mri','bm','ei','op','tmi'];
+
+function pick(key, val, btn, color) {
+  S[key] = val;
+  document.querySelectorAll('[data-k="'+key+'"]').forEach(b => b.className = b.classList.contains('opt-mol') ? 'opt opt-mol' : 'opt');
+  btn.classList.add('sel-'+color);
+  render();
+}
+
+function render() {
+  const gated = S.kps === 2;
+  document.getElementById('gate-box').style.display = gated ? 'block' : 'none';
+  ['card-d2','card-d3','card-d4','card-d5'].forEach(id =>
+    document.getElementById(id).classList.toggle('locked', gated));
+
+  const d1 = (S.kps??0) + (S.lmcnd??0) + (S.ecpd??0);
+  const d2 = S.mol??0;
+  const d3 = (S.mri??0) + (S.bm??0);
+  const d4 = (S.ei??0) + (S.op??0);
+  const d5 = S.tmi??0;
+  const total = d1+d2+d3+d4+d5;
+
+  // Dimension badges
+  const d1filled = S.kps!==null && S.lmcnd!==null && S.ecpd!==null;
+  document.getElementById('badge-d1').textContent = d1filled ? d1+' / 3 pts' : '0 – 3 pts';
+  document.getElementById('badge-d2').textContent = S.mol!==null ? d2+' / 2 pts' : '0 – 2 pts';
+  document.getElementById('badge-d3').textContent = (S.mri!==null&&S.bm!==null) ? d3+' / 2 pts' : '0 – 2 pts';
+  document.getElementById('badge-d4').textContent = (S.ei!==null&&S.op!==null) ? d4+' / 2 pts' : '0 – 2 pts';
+  document.getElementById('badge-d5').textContent = S.tmi!==null ? d5+' / 1 pt' : '0 – 1 pt';
+
+  // Progress
+  let filled = 0;
+  ALL_KEYS.forEach(k => {
+    const done = S[k]!==null;
+    document.getElementById('pdot-'+k).classList.toggle('done', done);
+    if(done) filled++;
+  });
+  document.getElementById('prog-label').textContent = filled+' / 9 variables';
+
+  // Header
+  const hasKps = S.kps !== null;
+  const scoreEl = document.getElementById('hdr-score');
+  scoreEl.textContent = hasKps ? total : '—';
+  document.getElementById('hdr-of').textContent = hasKps ? '/ 10' : '';
+
+  // Determine risk
+  let risk = null;
+  const scoredComplete = ALL_KEYS.every(k => S[k]!==null);
+
+  if (gated && hasKps) risk = 'high';
+  else if (scoredComplete) {
+    if (total >= 7) risk = 'high';
+    else if (total >= 3) risk = 'inter';
+    else risk = 'low';
+  }
+
+  // Header chip
+  const chip = document.getElementById('hdr-chip');
+  chip.className = 'risk-chip';
+  if (risk === 'low') { chip.classList.add('chip-low'); chip.textContent = 'Low Risk'; }
+  else if (risk === 'inter') { chip.classList.add('chip-inter'); chip.textContent = 'Intermediate'; }
+  else if (risk === 'high') { chip.classList.add('chip-high'); chip.textContent = 'High Risk'; }
+  else { chip.classList.add('chip-nd'); chip.textContent = 'Incomplete'; }
+
+  scoreEl.style.color = risk==='low' ? 'var(--green-text)' : risk==='inter' ? 'var(--amber-text)' : risk==='high' ? 'var(--red-text)' : 'var(--text3)';
+
+  if (risk) showResult(risk, total, d1, d2, d3, d4, d5);
+  else document.getElementById('result-wrap').style.display = 'none';
+}
+
+const RESULTS = {
+  low:{
+    title:'Low Risk', sub:'Score 0–2 · Favorable prognosis',
+    mos:'20.5 months',
+    bg:'var(--green-bg)', border:'var(--green-border)', text:'var(--green-text)',
+    iconBg:'#C0DD97', iconText:'#173404', icon:'↑',
+    guidance:`<strong>Ommaya reservoir placement recommended</strong> as a dual-purpose intervention: intrathecal therapy conduit and standardized CSF sampling port for longitudinal TMI monitoring. Aggressive TKI optimization indicated. Early CSF access may convert this tool from a static prognostic snapshot into a dynamic disease surveillance system.`
+  },
+  inter:{
+    title:'Intermediate Risk', sub:'Score 3–6 · Heterogeneous group',
+    mos:'12.6 months',
+    bg:'var(--amber-bg)', border:'var(--amber-border)', text:'var(--amber-text)',
+    iconBg:'#FAC775', iconText:'#412402', icon:'~',
+    guidance:`Multidisciplinary tumor board evaluation recommended. <strong>Consider Ommaya reservoir</strong> if molecular therapy with LM-specific evidence is available. Evaluate VPS if symptomatic hydrocephalus is present. Prognosis within this group varies substantially — dimension-level profile review may guide individual decisions.`
+  },
+  high:{
+    title:'High Risk', sub:'Score ≥ 7 or KPS &lt; 60',
+    mos:'4.5 months',
+    bg:'var(--red-bg)', border:'var(--red-border)', text:'var(--red-text)',
+    iconBg:'#F7C1C1', iconText:'#501313', icon:'↓',
+    guidance:`Guarded prognosis. <strong>Goals-of-care discussion recommended early.</strong> Palliative VPS may be appropriate for symptomatic hydrocephalus to improve quality of life. Aggressive intrathecal chemotherapy is unlikely to provide meaningful benefit and may increase procedural burden. If KPS &lt; 60 (gatekeeper), active anti-tumor therapy yields minimal benefit per NCCN CNS guidelines.`
+  }
+};
+
+function showResult(risk, total, d1, d2, d3, d4, d5) {
+  const r = RESULTS[risk];
+  const card = document.getElementById('result-card');
+  card.style.background = r.bg;
+  card.style.borderColor = r.border;
+  card.style.color = r.text;
+  document.getElementById('res-icon').style.cssText = 'background:'+r.iconBg+';color:'+r.iconText;
+  document.getElementById('res-icon').textContent = r.icon;
+  document.getElementById('res-title').textContent = r.title;
+  document.getElementById('res-sub').innerHTML = S.kps===2 ? 'KPS &lt; 60 gatekeeper activated (total score = '+total+')' : 'Total score = '+total+' / 10';
+  document.getElementById('rs-score').textContent = S.kps===2 ? total+' ★' : total;
+  document.getElementById('rs-mos').textContent = r.mos;
+  document.querySelectorAll('.s-box').forEach(b => b.style.background = 'rgba(255,255,255,0.25)');
+  document.getElementById('guidance-box').style.background = 'rgba(255,255,255,0.2)';
+  document.getElementById('dim-row').innerHTML =
+    `<span>D1 Host Resilience: <strong>${d1}</strong></span>` +
+    `<span>D2 Molecular Engine: <strong>${d2}</strong></span>` +
+    `<span>D3 Anatomical: <strong>${d3}</strong></span>` +
+    `<span>D4 Fluid Dynamics: <strong>${d4}</strong></span>` +
+    `<span>D5 Biological Toxicity: <strong>${d5}</strong></span>`;
+  document.getElementById('guidance-text').innerHTML = r.guidance;
+  const wrap = document.getElementById('result-wrap');
+  wrap.style.display = 'block';
+  setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}), 80);
+  saveToUrl(total, risk, d1, d2, d3, d4, d5);
+}
+
+function saveToUrl(total, risk, d1, d2, d3, d4, d5) {
+  const p = new URLSearchParams();
+  ['kps','lmcnd','ecpd','mol','mri','bm','ei','op','tmi'].forEach(k => {
+    if(S[k]!==null) p.set(k, S[k]);
+  });
+  history.replaceState(null,'','?'+p.toString());
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(()=>{
+    const btn = document.querySelector('.btn-share');
+    btn.textContent = '✓ Copied!';
+    setTimeout(()=>btn.textContent='⎘ Copy shareable link', 2000);
+  });
+}
+
+function resetAll() {
+  ALL_KEYS.forEach(k => S[k]=null);
+  document.querySelectorAll('.opt').forEach(b => {
+    b.className = b.classList.contains('opt-mol') ? 'opt opt-mol' : 'opt';
+  });
+  document.getElementById('gate-box').style.display='none';
+  ['card-d2','card-d3','card-d4','card-d5'].forEach(id=>
+    document.getElementById(id).classList.remove('locked'));
+  document.getElementById('result-wrap').style.display='none';
+  const chip = document.getElementById('hdr-chip');
+  chip.className='risk-chip chip-nd'; chip.textContent='Incomplete';
+  document.getElementById('hdr-score').textContent='—'; document.getElementById('hdr-of').textContent='';
+  document.getElementById('hdr-score').style.color='var(--text3)';
+  ALL_KEYS.forEach(k => document.getElementById('pdot-'+k).classList.remove('done'));
+  document.getElementById('prog-label').textContent='0 / 9 variables';
+  ['badge-d1','badge-d2','badge-d3','badge-d4','badge-d5'].forEach((id,i)=>{
+    const labels=['0 – 3 pts','0 – 2 pts','0 – 2 pts','0 – 2 pts','0 – 1 pt'];
+    document.getElementById(id).textContent=labels[i];
+  });
+  history.replaceState(null,'',window.location.pathname);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Restore from URL on load
+(function(){
+  const p = new URLSearchParams(window.location.search);
+  const colorMap = {kps:['green','amber','red'],lmcnd:['green','red'],ecpd:['green','red'],
+    mol:['green','amber','red'],mri:['green','red'],bm:['green','red'],
+    ei:['green','red'],op:['green','red'],tmi:['green','red']};
+  let any = false;
+  ALL_KEYS.forEach(k => {
+    const v = p.get(k);
+    if(v !== null){
+      const idx = parseInt(v);
+      S[k] = idx;
+      const btns = document.querySelectorAll('[data-k="'+k+'"]');
+      if(btns[idx]){
+        btns[idx].classList.add('sel-'+colorMap[k][idx]);
+      }
+      any = true;
+    }
+  });
+  if(any) render();
+})();
+</script>
+</body>
+</html>
