@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CSF Score Calculator — NSCLC Leptomeningeal Metastasis</title>
-<meta name="description" content="Cerebrospinal System Failure Score (CSF Score) — online calculator for prognostic risk stratification of leptomeningeal metastasis from NSCLC. C-index 0.741, n=123.">
+<meta name="description" content="Cerebrospinal System Failure Score (CSF Score) — physician-guided online calculator for prognostic risk stratification of leptomeningeal metastasis from NSCLC. C-index 0.741, n=123.">
 <style>
   :root {
     --bg:#ffffff; --bg2:#f7f7f5; --bg3:#f0efe9;
@@ -326,16 +326,16 @@
       <div class="dim-score-badge" id="badge-d5">0 – 1 pt</div>
     </div>
     <div class="var-block" style="border-top:none">
-      <div class="var-q">Tumor Marker Index (TMI) &gt; 3</div>
-      <div class="var-hint">TMI = CSF tumor marker ÷ paired serum marker (same episode). Marker hierarchy: CEA (adenocarcinoma) → CYFRA 21-1 (squamous) → NSE (neuroendocrine). Dual threshold distinguishes active intrathecal secretion from passive blood-CSF barrier leakage (which typically yields ratios &lt; 2–3).</div>
+      <div class="var-q">Tumor Marker Index (TMI) ≥ 3</div>
+      <div class="var-hint">TMI = CSF tumor marker concentration ÷ paired serum marker concentration (same diagnostic episode). Marker hierarchy: CEA (adenocarcinoma) → CYFRA 21-1 (squamous) → NSE (neuroendocrine features). Note: marker-specific heterogeneity exists; interpretation should consider marker type.</div>
       <div class="opts">
         <button class="opt" onclick="pick('tmi',0,this,'green')" data-k="tmi">
-          <div class="opt-label">TMI ≤ 3, or dual criterion not met &nbsp;·&nbsp; 0 pts</div>
-          <div class="opt-sub">Either TMI ≤ 3, or absolute CSF marker does not exceed the laboratory upper reference limit — active intrathecal tumor secretion not confirmed by this criterion</div>
+          <div class="opt-label">TMI &lt; 3 &nbsp;·&nbsp; 0 pts</div>
+          <div class="opt-sub">CSF-to-serum marker ratio below threshold — does not meet criterion for active intrathecal tumor secretion</div>
         </button>
         <button class="opt" onclick="pick('tmi',1,this,'red')" data-k="tmi">
-          <div class="opt-label">TMI &gt; 3 AND CSF value &gt; upper reference limit &nbsp;·&nbsp; 1 pt</div>
-          <div class="opt-sub">Both criteria met — evidence of active tumor cell secretion within the CSF compartment beyond passive filtration; associated with higher intrathecal tumor burden</div>
+          <div class="opt-label">TMI ≥ 3 &nbsp;·&nbsp; 1 pt</div>
+          <div class="opt-sub">CSF-to-serum marker ratio ≥ 3 — consistent with active intrathecal tumor secretion beyond passive blood-CSF barrier leakage (which typically produces ratios &lt; 2–3)</div>
         </button>
       </div>
     </div>
@@ -369,10 +369,10 @@
   </div>
 
   <div class="footer">
-    <p><strong>Cerebrospinal System Failure Score (CSF Score)</strong> · For research and clinical decision support only · Not a substitute for clinical judgment</p>
+    <p><strong>Cerebrospinal System Failure Score (CSF Score)</strong> · For physician-guided research and clinical decision support only · Not a substitute for clinical judgment or multidisciplinary evaluation</p>
     <p style="margin-top:4px">Constructed entirely a priori · C-index 0.741 (95% CI 0.706–0.776) · n=123 cytology-confirmed NSCLC-LM</p>
     <p style="margin-top:4px">Low risk (0–2) mOS 20.5 m · Intermediate (3–6) mOS 12.6 m · High risk (≥7 or KPS&lt;60) mOS 4.5 m · Log-rank p&lt;0.001</p>
-    <p style="margin-top:8px"><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> · Please cite the original publication when using this tool</p>
+    <p style="margin-top:8px"><a href="https://github.com/xutaosmmu/csf-score" target="_blank" rel="noopener">GitHub</a> · Please cite the original publication when using this tool</p>
   </div>
 
 </div>
@@ -420,13 +420,13 @@ function render(){
 const RESULTS={
   low:{title:'Low Risk',sub:'Score 0–2 · Favorable prognosis',mos:'20.5 months',
     bg:'var(--green-bg)',border:'var(--green-border)',text:'var(--green-text)',iconBg:'#C0DD97',iconText:'#173404',icon:'↑',
-    guidance:`<strong>Ommaya reservoir placement recommended</strong> as a dual-purpose intervention: intrathecal therapy conduit and standardized CSF sampling port for longitudinal TMI monitoring. Aggressive TKI optimization indicated. Early CSF access may transform the CSF Score from a static prognostic snapshot into a dynamic disease surveillance system.`},
+    guidance:`This score supports a structured risk discussion in the multidisciplinary context. <strong>Ommaya reservoir placement may be considered</strong> as a dual-purpose intervention: intrathecal therapy conduit and standardized CSF sampling port for longitudinal TMI monitoring. TKI optimization should be evaluated in the context of available CNS-active options.`},
   inter:{title:'Intermediate Risk',sub:'Score 3–6 · Heterogeneous group',mos:'12.6 months',
     bg:'var(--amber-bg)',border:'var(--amber-border)',text:'var(--amber-text)',iconBg:'#FAC775',iconText:'#412402',icon:'~',
-    guidance:`Multidisciplinary tumor board evaluation recommended. <strong>Consider Ommaya reservoir</strong> if molecular therapy with LM-specific evidence is available. Evaluate VPS candidacy if symptomatic hydrocephalus is present. Prognosis within this group varies substantially — the dimension-level profile may guide individualized decisions.`},
+    guidance:`This score supports a structured risk discussion in the multidisciplinary context. Ommaya reservoir placement may be considered if molecular therapy with LM-specific evidence is available. VPS candidacy may be evaluated if symptomatic hydrocephalus is present. Prognosis within this group varies substantially — the dimension-level profile should guide individualized decisions.`},
   high:{title:'High Risk',sub:'Score ≥ 7 or KPS &lt; 60',mos:'4.5 months',
     bg:'var(--red-bg)',border:'var(--red-border)',text:'var(--red-text)',iconBg:'#F7C1C1',iconText:'#501313',icon:'↓',
-    guidance:`Guarded prognosis. <strong>Goals-of-care discussion recommended early.</strong> Palliative VPS may be appropriate for symptomatic hydrocephalus to improve quality of life. Aggressive intrathecal chemotherapy is unlikely to provide meaningful benefit and may increase procedural burden. If KPS &lt; 60 (gatekeeper), active anti-tumor therapy yields minimal benefit per NCCN CNS guidelines.`}
+    guidance:`This score supports a structured risk discussion in the multidisciplinary context. Early goals-of-care discussion may be appropriate given the guarded prognosis indicated by this risk stratum. Palliative VPS may be considered for symptomatic hydrocephalus. The benefit of aggressive intrathecal chemotherapy should be weighed carefully against procedural burden in this group.`}
 };
 function showResult(risk,total,d1,d2,d3,d4,d5){
   const r=RESULTS[risk],card=document.getElementById('result-card');

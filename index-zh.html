@@ -329,20 +329,16 @@
       <div class="dim-score-badge" id="badge-d5">0 – 1 分</div>
     </div>
     <div class="var-block" style="border-top:none">
-      <div class="var-q">肿瘤标志物指数（TMI）&gt; 3</div>
-      <div class="var-hint">
-        TMI = CSF肿瘤标志物浓度 ÷ 同次诊断时配对血清标志物浓度。<br>
-        标志物选择层级：CEA（腺癌）→ CYFRA 21-1（鳞癌）→ NSE（神经内分泌分化）。<br>
-        双重阈值设计：TMI &gt; 3用于区分主动鞘内分泌（血-脑脊液屏障破坏被动渗漏通常产生CSF:血清比值 &lt; 2–3）。
-      </div>
+      <div class="var-q">肿瘤标志物指数（TMI）≥ 3</div>
+      <div class="var-hint">TMI = CSF肿瘤标志物浓度 ÷ 同次诊断时配对血清标志物浓度。标志物选择层级：CEA（腺癌）→ CYFRA 21-1（鳞癌）→ NSE（神经内分泌分化）。注：不同标志物存在异质性，解读时需结合标志物类型。</div>
       <div class="opts">
         <button class="opt" onclick="pick('tmi',0,this,'green')" data-k="tmi">
-          <div class="opt-label">TMI ≤ 3，或双重标准未满足 &nbsp;·&nbsp; 0 分</div>
-          <div class="opt-sub">TMI ≤ 3，或CSF标志物绝对值未超过实验室参考上限——无法以此标准确认主动鞘内肿瘤分泌</div>
+          <div class="opt-label">TMI &lt; 3 &nbsp;·&nbsp; 0 分</div>
+          <div class="opt-sub">CSF与血清标志物比值低于阈值——不符合主动鞘内肿瘤分泌的判断标准</div>
         </button>
         <button class="opt" onclick="pick('tmi',1,this,'red')" data-k="tmi">
-          <div class="opt-label">TMI &gt; 3 且 CSF值 &gt; 参考上限 &nbsp;·&nbsp; 1 分</div>
-          <div class="opt-sub">双重标准均满足——CSF间隙内存在主动肿瘤细胞分泌的证据，超出被动渗漏范围；提示较高的鞘内肿瘤负荷</div>
+          <div class="opt-label">TMI ≥ 3 &nbsp;·&nbsp; 1 分</div>
+          <div class="opt-sub">CSF与血清标志物比值 ≥ 3——符合主动鞘内肿瘤分泌特征，超出血-脑脊液屏障被动渗漏范围（被动渗漏通常产生CSF:血清比值 &lt; 2–3）</div>
         </button>
       </div>
     </div>
@@ -376,10 +372,10 @@
   </div>
 
   <div class="footer">
-    <p><strong>脑脊液系统衰竭评分（CSF评分）</strong> · 仅供研究及临床辅助决策，不替代临床判断</p>
+    <p><strong>脑脊液系统衰竭评分（CSF评分）</strong> · 仅供医师主导的研究及临床辅助决策，不替代临床判断或多学科评估</p>
     <p style="margin-top:4px">完全先验构建 · C指数 0.741（95% CI 0.706–0.776）· n=123 细胞学确诊 NSCLC-LM</p>
     <p style="margin-top:4px">低危（0–2分）中位OS 20.5月 · 中危（3–6分）12.6月 · 高危（≥7分或KPS&lt;60）4.5月 · Log-rank p&lt;0.001</p>
-    <p style="margin-top:8px"><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> · 使用本工具请引用原始发表文献</p>
+    <p style="margin-top:8px"><a href="https://github.com/xutaosmmu/csf-score" target="_blank" rel="noopener">GitHub</a> · 使用本工具请引用原始发表文献</p>
   </div>
 
 </div>
@@ -427,13 +423,13 @@ function render(){
 const RESULTS={
   low:{title:'低危组',sub:'总分 0–2 · 预后相对良好',mos:'20.5 个月',
     bg:'var(--green-bg)',border:'var(--green-border)',text:'var(--green-text)',iconBg:'#C0DD97',iconText:'#173404',icon:'↑',
-    guidance:`推荐<strong>Ommaya储液囊置入</strong>作为双重目的干预：鞘内治疗给药通道，以及用于纵向TMI动态监测的标准化CSF采样端口。积极优化TKI方案。早期CSF通路建立有望将CSF评分从静态预后快照转化为动态疾病监测工具。`},
+    guidance:`本评分结果支持在多学科框架内进行结构化风险讨论。可考虑<strong>Ommaya储液囊置入</strong>作为双重目的干预：鞘内治疗给药通道及纵向CSF/TMI动态监测的标准化采样端口。TKI方案优化应结合现有CNS活性药物选择综合评估。`},
   inter:{title:'中危组',sub:'总分 3–6 · 预后异质性较大',mos:'12.6 个月',
     bg:'var(--amber-bg)',border:'var(--amber-border)',text:'var(--amber-text)',iconBg:'#FAC775',iconText:'#412402',icon:'~',
-    guidance:`建议多学科肿瘤委员会（MDT）讨论。若有LM特异性分子靶向治疗可用，<strong>可考虑Ommaya储液囊置入</strong>。若存在症状性脑积水，评估VPS适应证。本组内预后差异较大——各维度分值剖析有助于个体化决策。`},
+    guidance:`本评分结果支持在多学科框架内进行结构化风险讨论。若有LM特异性分子靶向治疗可用，可考虑Ommaya储液囊置入。若存在症状性脑积水，可评估VPS适应证。本组内预后差异较大，各维度分值剖析应作为个体化决策的参考依据。`},
   high:{title:'高危组',sub:'总分 ≥ 7 或 KPS &lt; 60',mos:'4.5 个月',
     bg:'var(--red-bg)',border:'var(--red-border)',text:'var(--red-text)',iconBg:'#F7C1C1',iconText:'#501313',icon:'↓',
-    guidance:`预后较差。<strong>建议尽早启动目标治疗讨论（goals-of-care）。</strong>症状性脑积水患者可考虑姑息性VPS以改善生活质量。积极鞘内化疗获益有限，且可能增加手术操作负担。KPS &lt; 60门控激活时，按NCCN CNS指南，积极抗肿瘤治疗获益极为有限。`}
+    guidance:`本评分结果支持在多学科框架内进行结构化风险讨论。鉴于该风险层级所示的预后，可考虑尽早启动目标治疗讨论（goals-of-care）。症状性脑积水患者可考虑姑息性VPS以改善生活质量。对该组患者，积极鞘内化疗的获益与操作负担之间的权衡需审慎评估。`}
 };
 function showResult(risk,total,d1,d2,d3,d4,d5){
   const r=RESULTS[risk],card=document.getElementById('result-card');
