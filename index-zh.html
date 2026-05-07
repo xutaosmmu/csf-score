@@ -110,6 +110,8 @@
   .footer{text-align:center;font-size:11px;color:var(--text3);margin-top:32px;line-height:1.8;padding:0 16px}
   .footer a{color:var(--text3)}
   @media(max-width:480px){.stats-grid{grid-template-columns:1fr 1fr}.header-sub{display:none}.hero-stats{gap:10px}}
+  .disclaimer{background:var(--amber-bg);border:1px solid var(--amber-border);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--amber-text);line-height:1.7}
+  .disclaimer strong{font-weight:600}
 </style>
 </head>
 <body>
@@ -139,10 +141,14 @@
     <p>针对非小细胞肺癌（NSCLC）软脑膜转移（LM）的预后评分系统。缩写"CSF"具有双重含义：<em>Cerebrospinal System Failure（脑脊液系统衰竭）</em>——本评分的病理生理学框架——以及 <em>cerebrospinal fluid（脑脊液）</em>——疾病核心所在的生物学介质。五个维度完整覆盖从肿瘤驱动性负荷到系统级衰竭的病理级联。</p>
     <div class="hero-stats">
       <div class="h-stat"><strong>n = 123</strong> 细胞学确诊 NSCLC-LM</div>
-      <div class="h-stat"><strong>C指数 0.741</strong>（95% CI 0.706–0.776）</div>
+      <div class="h-stat"><strong>C指数 0.741</strong>（95% CI 0.705–0.779）</div>
       <div class="h-stat"><strong>Log-rank p &lt; 0.001</strong></div>
-      <div class="h-stat"><strong>完全先验构建</strong></div>
+      <div class="h-stat"><strong>预设评分框架</strong></div>
     </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>仅供研究使用。</strong>本计算器仅供研究及探索性使用。尚未经过外部多中心验证，不应作为独立的临床决策工具。
   </div>
 
   <div class="progress-track">
@@ -233,7 +239,7 @@
       <div class="opts">
         <button class="opt" onclick="pick('mol',0,this,'green')" data-k="mol">
           <div class="opt-label">有效CNS活性TKI可用 &nbsp;·&nbsp; 0 分</div>
-          <div class="opt-sub">例如：一/二线奥希替尼（EGFR敏感突变）；洛拉替尼（ALK/ROS1）；具有LM特异性证据的阿来替尼或布格替尼——仍有强效鞘内靶向选择</div>
+          <div class="opt-sub">例如：一/二线奥希替尼（EGFR敏感突变）；洛拉替尼（ALK/ROS1）；具有LM特异性证据的阿来替尼（ALK）——仍有强效CNS活性靶向选择</div>
         </button>
         <button class="opt" onclick="pick('mol',1,this,'amber')" data-k="mol">
           <div class="opt-label">CNS活性欠佳或不确定 &nbsp;·&nbsp; 1 分</div>
@@ -301,7 +307,7 @@
         </button>
         <button class="opt" onclick="pick('ei',1,this,'red')" data-k="ei">
           <div class="opt-label">EI ≥ 0.27 &nbsp;·&nbsp; 1 分</div>
-          <div class="opt-sub">脑室扩大超过LM预后阈值——提示CSF流出障碍；建议神经外科评估VPS适应证</div>
+          <div class="opt-sub">脑室扩大超过LM预后阈值，提示CSF流出受损。若伴随症状性脑积水或颅高压表现，建议结合临床进行神经外科评估。</div>
         </button>
       </div>
     </div>
@@ -315,7 +321,7 @@
         </button>
         <button class="opt" onclick="pick('op',1,this,'red')" data-k="op">
           <div class="opt-label">OP &gt; 250 mmH₂O 或症状性脑积水 &nbsp;·&nbsp; 1 分</div>
-          <div class="opt-sub">明确颅内高压或症状性脑积水——神经外科通常考虑VPS置入的临床阈值</div>
+          <div class="opt-sub">明确颅内高压或症状性脑积水。该阈值具有神经外科意义，在合适临床情境下可提示评估CSF分流可能性。</div>
         </button>
       </div>
     </div>
@@ -329,16 +335,16 @@
       <div class="dim-score-badge" id="badge-d5">0 – 1 分</div>
     </div>
     <div class="var-block" style="border-top:none">
-      <div class="var-q">肿瘤标志物指数（TMI）≥ 3</div>
+      <div class="var-q">肿瘤标志物指数（TMI）> 3</div>
       <div class="var-hint">TMI = CSF肿瘤标志物浓度 ÷ 同次诊断时配对血清标志物浓度。标志物选择层级：CEA（腺癌）→ CYFRA 21-1（鳞癌）→ NSE（神经内分泌分化）。注：不同标志物存在异质性，解读时需结合标志物类型。</div>
       <div class="opts">
         <button class="opt" onclick="pick('tmi',0,this,'green')" data-k="tmi">
-          <div class="opt-label">TMI &lt; 3 &nbsp;·&nbsp; 0 分</div>
-          <div class="opt-sub">CSF与血清标志物比值低于阈值——不符合主动鞘内肿瘤分泌的判断标准</div>
+          <div class="opt-label">TMI ≤ 3 &nbsp;·&nbsp; 0 分</div>
+          <div class="opt-sub">CSF与血清标志物比值未超过阈值——不符合主动鞘内肿瘤分泌的判断标准</div>
         </button>
         <button class="opt" onclick="pick('tmi',1,this,'red')" data-k="tmi">
-          <div class="opt-label">TMI ≥ 3 &nbsp;·&nbsp; 1 分</div>
-          <div class="opt-sub">CSF与血清标志物比值 ≥ 3——符合主动鞘内肿瘤分泌特征，超出血-脑脊液屏障被动渗漏范围（被动渗漏通常产生CSF:血清比值 &lt; 2–3）</div>
+          <div class="opt-label">TMI > 3 &nbsp;·&nbsp; 1 分</div>
+          <div class="opt-sub">CSF与血清标志物比值 > 3——符合主动鞘内肿瘤分泌特征，超出血-脑脊液屏障被动渗漏范围（被动渗漏通常产生CSF:血清比值 &lt; 2–3）</div>
         </button>
       </div>
     </div>
@@ -372,10 +378,11 @@
   </div>
 
   <div class="footer">
-    <p><strong>脑脊液系统衰竭评分（CSF评分）</strong> · 仅供医师主导的研究及临床辅助决策，不替代临床判断或多学科评估</p>
-    <p style="margin-top:4px">完全先验构建 · C指数 0.741（95% CI 0.706–0.776）· n=123 细胞学确诊 NSCLC-LM</p>
+    <p><strong>脑脊液系统衰竭评分（CSF评分）</strong> · 仅供医师主导的研究及探索性风险评估，不替代临床判断或多学科评估</p>
+    <p style="margin-top:4px">预设评分框架 · C指数 0.741（95% CI 0.705–0.779）· n=123 细胞学确诊 NSCLC-LM</p>
     <p style="margin-top:4px">低危（0–2分）中位OS 20.5月 · 中危（3–6分）12.6月 · 高危（≥7分或KPS&lt;60）4.5月 · Log-rank p&lt;0.001</p>
     <p style="margin-top:8px"><a href="https://github.com/xutaosmmu/csf-score" target="_blank" rel="noopener">GitHub</a> · 使用本工具请引用原始发表文献</p>
+    <p style="margin-top:4px;opacity:0.7">CSF评分 v1.0 — 与预印本版本对应，2026 年 5 月</p>
   </div>
 
 </div>
@@ -423,13 +430,13 @@ function render(){
 const RESULTS={
   low:{title:'低危组',sub:'总分 0–2 · 预后相对良好',mos:'20.5 个月',
     bg:'var(--green-bg)',border:'var(--green-border)',text:'var(--green-text)',iconBg:'#C0DD97',iconText:'#173404',icon:'↑',
-    guidance:`本评分结果支持在多学科框架内进行结构化风险讨论。可考虑<strong>Ommaya储液囊置入</strong>作为双重目的干预：鞘内治疗给药通道及纵向CSF/TMI动态监测的标准化采样端口。TKI方案优化应结合现有CNS活性药物选择综合评估。`},
+    guidance:`本评分结果支持在多学科框架内进行结构化风险分层。具体治疗决策——包括鞘内治疗可及性、神经外科干预选择以及全身治疗优化——应结合临床判断、多学科评估及个体化患者因素综合考量。`},
   inter:{title:'中危组',sub:'总分 3–6 · 预后异质性较大',mos:'12.6 个月',
     bg:'var(--amber-bg)',border:'var(--amber-border)',text:'var(--amber-text)',iconBg:'#FAC775',iconText:'#412402',icon:'~',
-    guidance:`本评分结果支持在多学科框架内进行结构化风险讨论。若有LM特异性分子靶向治疗可用，可考虑Ommaya储液囊置入。若存在症状性脑积水，可评估VPS适应证。本组内预后差异较大，各维度分值剖析应作为个体化决策的参考依据。`},
+    guidance:`本评分结果支持在多学科框架内进行结构化风险分层。中危组内预后差异较大；个体维度评分剖析（而非仅依赖总分）可辅助制定个体化诊疗规划。具体治疗决策应结合临床判断及多学科评估。`},
   high:{title:'高危组',sub:'总分 ≥ 7 或 KPS &lt; 60',mos:'4.5 个月',
     bg:'var(--red-bg)',border:'var(--red-border)',text:'var(--red-text)',iconBg:'#F7C1C1',iconText:'#501313',icon:'↓',
-    guidance:`本评分结果支持在多学科框架内进行结构化风险讨论。鉴于该风险层级所示的预后，可考虑尽早启动目标治疗讨论（goals-of-care）。症状性脑积水患者可考虑姑息性VPS以改善生活质量。对该组患者，积极鞘内化疗的获益与操作负担之间的权衡需审慎评估。`}
+    guidance:`本评分结果支持在多学科框架内进行结构化风险分层。高危层级提示生存期显著缩短；治疗规划、治疗强度及支持治疗优先级应结合临床判断、多学科评估及个体化患者因素综合权衡。`}
 };
 function showResult(risk,total,d1,d2,d3,d4,d5){
   const r=RESULTS[risk],card=document.getElementById('result-card');
@@ -437,7 +444,7 @@ function showResult(risk,total,d1,d2,d3,d4,d5){
   document.getElementById('res-icon').style.cssText='background:'+r.iconBg+';color:'+r.iconText;
   document.getElementById('res-icon').textContent=r.icon;
   document.getElementById('res-title').textContent=r.title;
-  document.getElementById('res-sub').innerHTML=S.kps===2?'KPS &lt; 60 门控激活（总分 = '+total+'）':'总分 = '+total+' / 10';
+  document.getElementById('res-sub').innerHTML=S.kps===2?'KPS &lt; 60 已触发门控机制——直接归入高危组，无需继续计算其余维度':'总分 = '+total+' / 10';
   document.getElementById('rs-score').textContent=S.kps===2?total+' ★':total;
   document.getElementById('rs-mos').textContent=r.mos;
   document.querySelectorAll('.s-box').forEach(b=>b.style.background='rgba(255,255,255,0.25)');

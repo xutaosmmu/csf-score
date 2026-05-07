@@ -110,6 +110,8 @@
   .lang-btn{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--border2);background:var(--bg);color:var(--text3);text-decoration:none;transition:all 0.15s}
   .lang-btn:hover{background:var(--bg2);color:var(--text)}
   .lang-btn.active{background:var(--d4);border-color:var(--d4);color:var(--d4t);font-weight:500}
+  .disclaimer{background:var(--amber-bg);border:1px solid var(--amber-border);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--amber-text);line-height:1.6}
+  .disclaimer strong{font-weight:600}
 </style>
 </head>
 <body>
@@ -139,10 +141,14 @@
     <p>A prognostic scoring system for leptomeningeal metastasis (LM) from non-small cell lung cancer (NSCLC). The acronym CSF carries a deliberate double meaning: <em>Cerebrospinal System Failure</em> — the pathophysiological framework — and <em>cerebrospinal fluid</em>, the biological medium at the center of the disease. Five dimensions capture the cascade from tumor-driven burden to system-level failure.</p>
     <div class="hero-stats">
       <div class="h-stat"><strong>n = 123</strong> cytology-confirmed NSCLC-LM</div>
-      <div class="h-stat"><strong>C-index 0.741</strong> (95% CI 0.706–0.776)</div>
+      <div class="h-stat"><strong>C-index 0.741</strong> (95% CI 0.705–0.779)</div>
       <div class="h-stat"><strong>Log-rank p &lt; 0.001</strong></div>
-      <div class="h-stat"><strong>Constructed entirely a priori</strong></div>
+      <div class="h-stat"><strong>Pre-specified scoring framework</strong></div>
     </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>For research use only.</strong> This calculator is provided for research and exploratory use only. It has not undergone external multicenter validation and should not be used as a standalone clinical decision-making tool.
   </div>
 
   <div class="progress-track">
@@ -230,7 +236,7 @@
       <div class="opts">
         <button class="opt" onclick="pick('mol',0,this,'green')" data-k="mol">
           <div class="opt-label">Effective CNS-active TKI available &nbsp;·&nbsp; 0 pts</div>
-          <div class="opt-sub">e.g. 1st/2nd-line osimertinib (EGFR-sensitizing); lorlatinib (ALK/ROS1); alectinib or brigatinib with LM-specific data — a potent intrathecal option remains</div>
+          <div class="opt-sub">e.g. 1st/2nd-line osimertinib (EGFR-sensitizing); lorlatinib (ALK/ROS1); alectinib (ALK with LM-specific data) — a potent CNS-active option remains</div>
         </button>
         <button class="opt" onclick="pick('mol',1,this,'amber')" data-k="mol">
           <div class="opt-label">Suboptimal or uncertain CNS activity &nbsp;·&nbsp; 1 pt</div>
@@ -298,7 +304,7 @@
         </button>
         <button class="opt" onclick="pick('ei',1,this,'red')" data-k="ei">
           <div class="opt-label">EI ≥ 0.27 &nbsp;·&nbsp; 1 pt</div>
-          <div class="opt-sub">Ventriculomegaly exceeding the validated LM-prognostic threshold — indicates compromised CSF outflow; consider neurosurgical assessment for VPS candidacy</div>
+          <div class="opt-sub">Ventriculomegaly exceeding the validated LM-prognostic threshold. Consider clinical correlation and neurosurgical assessment when symptomatic hydrocephalus or raised intracranial pressure is suspected.</div>
         </button>
       </div>
     </div>
@@ -312,7 +318,7 @@
         </button>
         <button class="opt" onclick="pick('op',1,this,'red')" data-k="op">
           <div class="opt-label">OP &gt; 250 mmH₂O or symptomatic hydrocephalus &nbsp;·&nbsp; 1 pt</div>
-          <div class="opt-sub">Frank intracranial hypertension or symptomatic hydrocephalus — the neurosurgically relevant threshold at which VPS placement is typically considered</div>
+          <div class="opt-sub">Frank intracranial hypertension or symptomatic hydrocephalus. This is a neurosurgically relevant threshold that may prompt evaluation for CSF diversion in the appropriate clinical context.</div>
         </button>
       </div>
     </div>
@@ -326,16 +332,16 @@
       <div class="dim-score-badge" id="badge-d5">0 – 1 pt</div>
     </div>
     <div class="var-block" style="border-top:none">
-      <div class="var-q">Tumor Marker Index (TMI) ≥ 3</div>
+      <div class="var-q">Tumor Marker Index (TMI) > 3</div>
       <div class="var-hint">TMI = CSF tumor marker concentration ÷ paired serum marker concentration (same diagnostic episode). Marker hierarchy: CEA (adenocarcinoma) → CYFRA 21-1 (squamous) → NSE (neuroendocrine features). Note: marker-specific heterogeneity exists; interpretation should consider marker type.</div>
       <div class="opts">
         <button class="opt" onclick="pick('tmi',0,this,'green')" data-k="tmi">
-          <div class="opt-label">TMI &lt; 3 &nbsp;·&nbsp; 0 pts</div>
-          <div class="opt-sub">CSF-to-serum marker ratio below threshold — does not meet criterion for active intrathecal tumor secretion</div>
+          <div class="opt-label">TMI ≤ 3 &nbsp;·&nbsp; 0 pts</div>
+          <div class="opt-sub">CSF-to-serum marker ratio at or below threshold — does not meet criterion for active intrathecal tumor secretion</div>
         </button>
         <button class="opt" onclick="pick('tmi',1,this,'red')" data-k="tmi">
-          <div class="opt-label">TMI ≥ 3 &nbsp;·&nbsp; 1 pt</div>
-          <div class="opt-sub">CSF-to-serum marker ratio ≥ 3 — consistent with active intrathecal tumor secretion beyond passive blood-CSF barrier leakage (which typically produces ratios &lt; 2–3)</div>
+          <div class="opt-label">TMI > 3 &nbsp;·&nbsp; 1 pt</div>
+          <div class="opt-sub">CSF-to-serum marker ratio > 3 — consistent with active intrathecal tumor secretion beyond passive blood-CSF barrier leakage (which typically produces ratios &lt; 2–3)</div>
         </button>
       </div>
     </div>
@@ -369,10 +375,11 @@
   </div>
 
   <div class="footer">
-    <p><strong>Cerebrospinal System Failure Score (CSF Score)</strong> · For physician-guided research and clinical decision support only · Not a substitute for clinical judgment or multidisciplinary evaluation</p>
-    <p style="margin-top:4px">Constructed entirely a priori · C-index 0.741 (95% CI 0.706–0.776) · n=123 cytology-confirmed NSCLC-LM</p>
+    <p><strong>Cerebrospinal System Failure Score (CSF Score)</strong> · For physician-guided research and exploratory risk assessment only · Not a substitute for clinical judgment or multidisciplinary evaluation</p>
+    <p style="margin-top:4px">Pre-specified scoring framework · C-index 0.741 (95% CI 0.705–0.779) · n=123 cytology-confirmed NSCLC-LM</p>
     <p style="margin-top:4px">Low risk (0–2) mOS 20.5 m · Intermediate (3–6) mOS 12.6 m · High risk (≥7 or KPS&lt;60) mOS 4.5 m · Log-rank p&lt;0.001</p>
     <p style="margin-top:8px"><a href="https://github.com/xutaosmmu/csf-score" target="_blank" rel="noopener">GitHub</a> · Please cite the original publication when using this tool</p>
+    <p style="margin-top:4px;opacity:0.7">CSF-Score v1.0 — preprint corresponding version, May 2026</p>
   </div>
 
 </div>
@@ -420,13 +427,13 @@ function render(){
 const RESULTS={
   low:{title:'Low Risk',sub:'Score 0–2 · Favorable prognosis',mos:'20.5 months',
     bg:'var(--green-bg)',border:'var(--green-border)',text:'var(--green-text)',iconBg:'#C0DD97',iconText:'#173404',icon:'↑',
-    guidance:`This score supports a structured risk discussion in the multidisciplinary context. <strong>Ommaya reservoir placement may be considered</strong> as a dual-purpose intervention: intrathecal therapy conduit and standardized CSF sampling port for longitudinal TMI monitoring. TKI optimization should be evaluated in the context of available CNS-active options.`},
+    guidance:`This score supports structured risk stratification within the multidisciplinary context. Specific treatment decisions — including intrathecal therapy access, neurosurgical interventions, and systemic therapy optimization — should be guided by clinical judgment, multidisciplinary evaluation, and individualized patient factors.`},
   inter:{title:'Intermediate Risk',sub:'Score 3–6 · Heterogeneous group',mos:'12.6 months',
     bg:'var(--amber-bg)',border:'var(--amber-border)',text:'var(--amber-text)',iconBg:'#FAC775',iconText:'#412402',icon:'~',
-    guidance:`This score supports a structured risk discussion in the multidisciplinary context. Ommaya reservoir placement may be considered if molecular therapy with LM-specific evidence is available. VPS candidacy may be evaluated if symptomatic hydrocephalus is present. Prognosis within this group varies substantially — the dimension-level profile should guide individualized decisions.`},
+    guidance:`This score supports structured risk stratification within the multidisciplinary context. Prognosis within the intermediate-risk stratum varies substantially; the individual dimension-level profile (rather than total score alone) may help inform individualized care planning. Specific treatment decisions should be guided by clinical judgment and multidisciplinary evaluation.`},
   high:{title:'High Risk',sub:'Score ≥ 7 or KPS &lt; 60',mos:'4.5 months',
     bg:'var(--red-bg)',border:'var(--red-border)',text:'var(--red-text)',iconBg:'#F7C1C1',iconText:'#501313',icon:'↓',
-    guidance:`This score supports a structured risk discussion in the multidisciplinary context. Early goals-of-care discussion may be appropriate given the guarded prognosis indicated by this risk stratum. Palliative VPS may be considered for symptomatic hydrocephalus. The benefit of aggressive intrathecal chemotherapy should be weighed carefully against procedural burden in this group.`}
+    guidance:`This score supports structured risk stratification within the multidisciplinary context. The high-risk stratum is associated with markedly shorter survival; care planning, treatment intensity, and supportive care priorities should be guided by clinical judgment, multidisciplinary evaluation, and individualized patient factors.`}
 };
 function showResult(risk,total,d1,d2,d3,d4,d5){
   const r=RESULTS[risk],card=document.getElementById('result-card');
@@ -434,7 +441,7 @@ function showResult(risk,total,d1,d2,d3,d4,d5){
   document.getElementById('res-icon').style.cssText='background:'+r.iconBg+';color:'+r.iconText;
   document.getElementById('res-icon').textContent=r.icon;
   document.getElementById('res-title').textContent=r.title;
-  document.getElementById('res-sub').innerHTML=S.kps===2?'KPS &lt; 60 gatekeeper activated (total score = '+total+')':'Total score = '+total+' / 10';
+  document.getElementById('res-sub').innerHTML=S.kps===2?'KPS &lt; 60 gatekeeper activated — directly assigned to high-risk stratum regardless of total score; further scoring not required':'Total score = '+total+' / 10';
   document.getElementById('rs-score').textContent=S.kps===2?total+' ★':total;
   document.getElementById('rs-mos').textContent=r.mos;
   document.querySelectorAll('.s-box').forEach(b=>b.style.background='rgba(255,255,255,0.25)');
