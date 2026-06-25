@@ -91,7 +91,7 @@
   .res-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
   .res-title{font-size:18px;font-weight:600;margin-bottom:2px}
   .res-sub{font-size:13px;opacity:0.7}
-  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
   .s-box{border-radius:var(--radius-sm);padding:10px 12px;background:rgba(255,255,255,0.25)}
   .s-val{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
   .s-lbl{font-size:11px;opacity:0.65;margin-top:2px}
@@ -140,9 +140,7 @@
     <h1>Cerebrospinal System Failure Score (CSF Score)</h1>
     <p>A prognostic scoring system for leptomeningeal metastasis (LM) from non-small cell lung cancer (NSCLC). The acronym CSF carries a deliberate double meaning: <em>Cerebrospinal System Failure</em> — the pathophysiological framework — and <em>cerebrospinal fluid</em>, the biological medium at the center of the disease. Five dimensions capture the cascade from tumor-driven burden to system-level failure.</p>
     <div class="hero-stats">
-      <div class="h-stat"><strong>n = 123</strong> cytology-confirmed NSCLC-LM</div>
       <div class="h-stat"><strong>C-index 0.741</strong> (95% CI 0.705–0.779)</div>
-      <div class="h-stat"><strong>Log-rank p &lt; 0.001</strong></div>
       <div class="h-stat"><strong>Pre-specified scoring framework</strong></div>
     </div>
   </div>
@@ -232,19 +230,19 @@
     </div>
     <div class="var-block" style="border-top:none">
       <div class="var-q">CNS-penetrant TKI availability with LM-specific evidence</div>
-      <div class="var-hint">Score reflects therapeutic access, not mutation status alone. Zhang et al. (Front Oncol 2022) showed TKI generation superseded raw genomic status — treatment access is the dominant prognostic driver in the modern era.</div>
+      <div class="var-hint">Score reflects therapeutic access, not mutation status alone — currently available CNS-active targeted therapy is the dominant prognostic driver.</div>
       <div class="opts">
         <button class="opt" onclick="pick('mol',0,this,'green')" data-k="mol">
           <div class="opt-label">Effective CNS-active TKI available &nbsp;·&nbsp; 0 pts</div>
-          <div class="opt-sub">e.g. 1st/2nd-line osimertinib (EGFR-sensitizing); lorlatinib (ALK/ROS1); alectinib (ALK with LM-specific data) — a potent CNS-active option remains</div>
+          <div class="opt-sub">e.g. 3rd-generation TKI for EGFR (osimertinib, aumolertinib, furmonertinib), including switch after 1st/2nd-gen TKI with T790M+ or dose escalation; lorlatinib for ALK; entrectinib/lorlatinib/repotrectinib for ROS1; targeted therapy for other actionable alterations (MET, RET, BRAF, NTRK)</div>
         </button>
         <button class="opt" onclick="pick('mol',1,this,'amber')" data-k="mol">
           <div class="opt-label">Suboptimal or uncertain CNS activity &nbsp;·&nbsp; 1 pt</div>
-          <div class="opt-sub">e.g. later-line TKI after resistance; partial CNS penetration; limited LM-specific clinical trial data — some targeted option remains but LM efficacy is uncertain</div>
+          <div class="opt-sub">e.g. EGFR after 1st/2nd-gen TKI failure switching to Amivantamab + pemetrexed + platinum; ALK after 1st/2nd-gen TKI failure switching to alectinib/ceritinib/brigatinib; HER2 or other alterations with limited CNS evidence</div>
         </button>
         <button class="opt" onclick="pick('mol',2,this,'red')" data-k="mol">
           <div class="opt-label">No effective CNS-active option &nbsp;·&nbsp; 2 pts</div>
-          <div class="opt-sub">Non-AGA patients (KRAS, STK11, etc.) without approved CNS-penetrant targeted therapy; or AGA patients with fully exhausted targeted therapy lines — reliant on chemotherapy or immunotherapy</div>
+          <div class="opt-sub">e.g. EGFR post-3rd-gen TKI resistance with no CNS-active regimen; ALK fully resistant; ROS1 fully resistant; or KRAS, STK11, and other non-AGA patients without approved CNS-active targeted therapy — reliant on chemotherapy or immunotherapy</div>
         </button>
       </div>
     </div>
@@ -262,8 +260,8 @@
       <div class="var-hint">Classified per EANO-ESMO typology (Le Rhun et al., Ann Oncol 2017). Assessed on contrast-enhanced T1 or FLAIR on baseline MRI at LM diagnosis.</div>
       <div class="opts">
         <button class="opt" onclick="pick('mri',0,this,'green')" data-k="mri">
-          <div class="opt-label">Linear enhancement / Type A &nbsp;·&nbsp; 0 pts</div>
-          <div class="opt-sub">Thin, smooth, linear meningeal enhancement — diffuse CSF seeding without discrete deposits; lower structural burden and less risk of focal CSF flow obstruction</div>
+          <div class="opt-label">No enhancement or Linear enhancement (Type A) &nbsp;·&nbsp; 0 pts</div>
+          <div class="opt-sub">No abnormal leptomeningeal enhancement, or thin, smooth, linear enhancement — diffuse CSF seeding without discrete deposits; lower structural burden and less risk of focal CSF flow obstruction</div>
         </button>
         <button class="opt" onclick="pick('mri',1,this,'red')" data-k="mri">
           <div class="opt-label">Nodular or combined / Type B–C &nbsp;·&nbsp; 1 pt</div>
@@ -359,12 +357,11 @@
       </div>
       <div class="stats-grid">
         <div class="s-box"><div class="s-val" id="rs-score">—</div><div class="s-lbl">CSF Score total</div></div>
-        <div class="s-box"><div class="s-val" id="rs-mos">—</div><div class="s-lbl">Median OS (cohort)</div></div>
-        <div class="s-box"><div class="s-val">0.741</div><div class="s-lbl">C-index (n=123)</div></div>
+        <div class="s-box"><div class="s-val" id="rs-tier" style="font-size:16px;line-height:1.3">—</div><div class="s-lbl">Risk stratum</div></div>
       </div>
       <div class="dim-row" id="dim-row"></div>
       <div class="guidance-box" id="guidance-box">
-        <div class="guidance-title">Clinical decision framework</div>
+        <div class="guidance-title">Note</div>
         <div id="guidance-text"></div>
       </div>
       <div class="actions">
@@ -377,7 +374,6 @@
   <div class="footer">
     <p><strong>Cerebrospinal System Failure Score (CSF Score)</strong> · For physician-guided research and exploratory risk assessment only · Not a substitute for clinical judgment or multidisciplinary evaluation</p>
     <p style="margin-top:4px">Pre-specified scoring framework · C-index 0.741 (95% CI 0.705–0.779) · n=123 cytology-confirmed NSCLC-LM</p>
-    <p style="margin-top:4px">Low risk (0–2) mOS 20.5 m · Intermediate (3–6) mOS 12.6 m · High risk (≥7 or KPS&lt;60) mOS 4.5 m · Log-rank p&lt;0.001</p>
     <p style="margin-top:8px"><a href="https://github.com/xutaosmmu/csf-score" target="_blank" rel="noopener">GitHub</a> · Please cite the original publication when using this tool</p>
     <p style="margin-top:4px;opacity:0.7">CSF-Score v1.0 — preprint corresponding version, May 2026</p>
   </div>
@@ -424,16 +420,17 @@ function render(){
   if(risk)showResult(risk,total,d1,d2,d3,d4,d5);
   else document.getElementById('result-wrap').style.display='none';
 }
+const GENERIC_GUIDANCE=`This score is a structured prognostic assessment tool. Clinical management decisions should be guided by multidisciplinary evaluation and individualized clinical judgment.`;
 const RESULTS={
-  low:{title:'Low Risk',sub:'Score 0–2 · Favorable prognosis',mos:'20.5 months',
+  low:{title:'Low Risk',sub:'Score 0–2',
     bg:'var(--green-bg)',border:'var(--green-border)',text:'var(--green-text)',iconBg:'#C0DD97',iconText:'#173404',icon:'↑',
-    guidance:`This score supports structured risk stratification within the multidisciplinary context. Specific treatment decisions — including intrathecal therapy access, neurosurgical interventions, and systemic therapy optimization — should be guided by clinical judgment, multidisciplinary evaluation, and individualized patient factors.`},
-  inter:{title:'Intermediate Risk',sub:'Score 3–6 · Heterogeneous group',mos:'12.6 months',
+    guidance:GENERIC_GUIDANCE},
+  inter:{title:'Intermediate Risk',sub:'Score 3–6',
     bg:'var(--amber-bg)',border:'var(--amber-border)',text:'var(--amber-text)',iconBg:'#FAC775',iconText:'#412402',icon:'~',
-    guidance:`This score supports structured risk stratification within the multidisciplinary context. Prognosis within the intermediate-risk stratum varies substantially; the individual dimension-level profile (rather than total score alone) may help inform individualized care planning. Specific treatment decisions should be guided by clinical judgment and multidisciplinary evaluation.`},
-  high:{title:'High Risk',sub:'Score ≥ 7 or KPS &lt; 60',mos:'4.5 months',
+    guidance:GENERIC_GUIDANCE},
+  high:{title:'High Risk',sub:'Score ≥ 7 or KPS &lt; 60',
     bg:'var(--red-bg)',border:'var(--red-border)',text:'var(--red-text)',iconBg:'#F7C1C1',iconText:'#501313',icon:'↓',
-    guidance:`This score supports structured risk stratification within the multidisciplinary context. The high-risk stratum is associated with markedly shorter survival; care planning, treatment intensity, and supportive care priorities should be guided by clinical judgment, multidisciplinary evaluation, and individualized patient factors.`}
+    guidance:GENERIC_GUIDANCE}
 };
 function showResult(risk,total,d1,d2,d3,d4,d5){
   const r=RESULTS[risk],card=document.getElementById('result-card');
@@ -443,7 +440,7 @@ function showResult(risk,total,d1,d2,d3,d4,d5){
   document.getElementById('res-title').textContent=r.title;
   document.getElementById('res-sub').innerHTML=S.kps===2?'KPS &lt; 60 gatekeeper activated — directly assigned to high-risk stratum regardless of total score; further scoring not required':'Total score = '+total+' / 10';
   document.getElementById('rs-score').textContent=S.kps===2?total+' ★':total;
-  document.getElementById('rs-mos').textContent=r.mos;
+  document.getElementById('rs-tier').textContent=r.title;
   document.querySelectorAll('.s-box').forEach(b=>b.style.background='rgba(255,255,255,0.25)');
   document.getElementById('guidance-box').style.background='rgba(255,255,255,0.2)';
   document.getElementById('dim-row').innerHTML=`<span>D1 Host Resilience: <strong>${d1}</strong></span><span>D2 Molecular Engine: <strong>${d2}</strong></span><span>D3 Anatomical: <strong>${d3}</strong></span><span>D4 Fluid Dynamics: <strong>${d4}</strong></span><span>D5 Biological Toxicity: <strong>${d5}</strong></span>`;

@@ -1,5 +1,7 @@
 # CSF Score Calculator
 
+> **English** · [中文](README.zh.md)
+
 **Cerebrospinal System Failure Score (CSF Score)**  
 A pre-specified prognostic scoring framework for leptomeningeal metastasis (LM) from non-small cell lung cancer (NSCLC), developed from a neurosurgical perspective to support exploratory risk stratification and external validation.
 
@@ -51,11 +53,16 @@ Reflects systemic disease status at the time of the qualifying lumbar puncture.
 
 ### D2 · Molecular Engine (0–2 pts)
 
-Captures the availability of CNS-penetrant targeted therapy with LM-specific clinical evidence. The score reflects **therapeutic access**, not mutation status alone.
+Captures the availability of CNS-penetrant targeted therapy with LM-specific clinical evidence. The score reflects **therapeutic access**, not mutation status alone — currently available CNS-active targeted therapy is the dominant prognostic driver.
 
-- Effective CNS-active TKI available → **0 pts**
-- Suboptimal or uncertain CNS activity → **1 pt**
-- No effective CNS-active option → **2 pts**
+- **Effective CNS-active TKI available → 0 pts**  
+  e.g. 3rd-generation TKI for EGFR (osimertinib, aumolertinib, furmonertinib), including switch after 1st/2nd-gen TKI with T790M+ or dose escalation; lorlatinib for ALK; entrectinib/lorlatinib/repotrectinib for ROS1; targeted therapy for other actionable alterations (MET, RET, BRAF, NTRK).
+
+- **Suboptimal or uncertain CNS activity → 1 pt**  
+  e.g. EGFR after 1st/2nd-gen TKI failure switching to Amivantamab + pemetrexed + platinum; ALK after 1st/2nd-gen TKI failure switching to alectinib/ceritinib/brigatinib; HER2 or other alterations with limited CNS evidence.
+
+- **No effective CNS-active option → 2 pts**  
+  e.g. EGFR post-3rd-gen TKI resistance with no CNS-active regimen; ALK fully resistant; ROS1 fully resistant; or KRAS, STK11, and other non-AGA patients without approved CNS-active targeted therapy — reliant on chemotherapy or immunotherapy.
 
 ---
 
@@ -66,7 +73,7 @@ Captures structural tumor load within the CSF compartment and brain parenchyma.
 **MRI Leptomeningeal Enhancement Pattern**  
 Classified according to the EANO-ESMO typology.
 
-- Linear / Type A → **0 pts**
+- No enhancement or Linear enhancement (Type A) → **0 pts**
 - Nodular or combined / Type B–C → **1 pt**
 
 **Concurrent Parenchymal Brain Metastases**
@@ -120,11 +127,13 @@ TMI >3 was selected to reduce the likelihood that the signal reflects passive bl
 
 ## Risk Stratification
 
-| Risk Group | Score | Median OS | Exploratory interpretation |
-|---|---:|---:|---|
-| **Low** | 0–2 | 20.5 months | Favorable-risk stratum in the derivation cohort. May be suitable for active multimodal evaluation and longitudinal CSF monitoring in appropriate clinical contexts. |
-| **Intermediate** | 3–6 | 12.6 months | Intermediate-risk stratum. Requires individualized multidisciplinary assessment, including tumor-directed therapy options and CSF dynamics. |
-| **High** | ≥7, or KPS <60 | 4.5 months | High-risk stratum. May warrant early goals-of-care discussion and symptom-directed CSF management when clinically indicated. |
+| Risk Group | Score |
+|---|---:|
+| **Low** | 0–2 |
+| **Intermediate** | 3–6 |
+| **High** | ≥7, or KPS <60 |
+
+This score is a structured prognostic assessment tool. Clinical management decisions should be guided by multidisciplinary evaluation and individualized clinical judgment.
 
 ---
 

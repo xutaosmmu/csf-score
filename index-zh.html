@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CSF评分计算器 — 非小细胞肺癌软脑膜转移</title>
-<meta name="description" content="脑脊液系统衰竭评分（CSF评分）——非小细胞肺癌软脑膜转移预后风险分层在线计算器。C指数0.741，n=123。">
+<meta name="description" content="脑膜转移危险评分（CSF评分）——非小细胞肺癌软脑膜转移预后风险分层在线计算器。">
 <style>
   :root {
     --bg:#ffffff; --bg2:#f7f7f5; --bg3:#f0efe9;
@@ -95,7 +95,7 @@
   .res-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
   .res-title{font-size:18px;font-weight:600;margin-bottom:2px}
   .res-sub{font-size:13px;opacity:0.7}
-  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
   .s-box{border-radius:var(--radius-sm);padding:10px 12px;background:rgba(255,255,255,0.25)}
   .s-val{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
   .s-lbl{font-size:11px;opacity:0.65;margin-top:2px}
@@ -137,12 +137,10 @@
   </div>
 
   <div class="hero">
-    <h1>脑脊液系统衰竭评分（CSF评分）</h1>
-    <p>针对非小细胞肺癌（NSCLC）软脑膜转移（LM）的预后评分系统。缩写"CSF"具有双重含义：<em>Cerebrospinal System Failure（脑脊液系统衰竭）</em>——本评分的病理生理学框架——以及 <em>cerebrospinal fluid（脑脊液）</em>——疾病核心所在的生物学介质。五个维度完整覆盖从肿瘤驱动性负荷到系统级衰竭的病理级联。</p>
+    <h1>脑膜转移危险评分（CSF评分）</h1>
+    <p>针对非小细胞肺癌（NSCLC）软脑膜转移（LM）的预后评分系统。缩写"CSF"具有双重含义：<em>Cerebrospinal System Failure（脑脊液系统衰竭）</em>——本评分的病理生理学框架——以及 <em>cerebrospinal fluid（脑脊液）</em>——疾病核心所在的生物学介质。"脑膜转移"的核心其实是"脑脊液转移"——肿瘤细胞通过脑脊液系统播散，导致 CSF 流体动力学受损与神经功能下降。通过全身情况、靶向治疗、颅内肿瘤负荷、脑脊液动力学和颅内肿瘤生物活性五个维度，综合评估疾病严重程度。</p>
     <div class="hero-stats">
-      <div class="h-stat"><strong>n = 123</strong> 细胞学确诊 NSCLC-LM</div>
       <div class="h-stat"><strong>C指数 0.741</strong>（95% CI 0.705–0.779）</div>
-      <div class="h-stat"><strong>Log-rank p &lt; 0.001</strong></div>
       <div class="h-stat"><strong>预设评分框架</strong></div>
     </div>
   </div>
@@ -153,13 +151,13 @@
 
   <div class="progress-track">
     <div class="prog-dot" id="pdot-kps" title="KPS"></div>
-    <div class="prog-dot" id="pdot-lmcnd" title="LM-CND"></div>
+    <div class="prog-dot" id="pdot-lmcnd" title="脑膜转移相关神经受累症状"></div>
     <div class="prog-dot" id="pdot-ecpd" title="颅外进展"></div>
-    <div class="prog-dot" id="pdot-mol" title="分子引擎"></div>
+    <div class="prog-dot" id="pdot-mol" title="靶向治疗"></div>
     <div class="prog-dot" id="pdot-mri" title="MRI强化模式"></div>
     <div class="prog-dot" id="pdot-bm" title="脑实质转移"></div>
     <div class="prog-dot" id="pdot-ei" title="Evans指数"></div>
-    <div class="prog-dot" id="pdot-op" title="开放压"></div>
+    <div class="prog-dot" id="pdot-op" title="颅内压"></div>
     <div class="prog-dot" id="pdot-tmi" title="TMI"></div>
     <span class="prog-label" id="prog-label">0 / 9 项</span>
   </div>
@@ -168,7 +166,7 @@
   <div class="dim-card" id="card-d1">
     <div class="dim-head">
       <div class="dim-dot" style="background:var(--d1);color:var(--d1t)">D1</div>
-      <div class="dim-name">宿主耐受性</div>
+      <div class="dim-name">全身情况</div>
       <div class="dim-score-badge" id="badge-d1">0 – 3 分</div>
     </div>
 
@@ -196,7 +194,7 @@
     </div>
 
     <div class="var-block">
-      <div class="var-q">LM特异性核心神经功能缺损（LM-CND）</div>
+      <div class="var-q">脑膜转移相关神经受累症状</div>
       <div class="var-hint">定义为至少一项归因于软脑膜受累的主要颅神经或脊髓功能缺损——排除既往存在或由脑实质转移引起的症状。</div>
       <div class="opts">
         <button class="opt" onclick="pick('lmcnd',0,this,'green')" data-k="lmcnd">
@@ -230,24 +228,24 @@
   <div class="dim-card" id="card-d2">
     <div class="dim-head">
       <div class="dim-dot" style="background:var(--d2);color:var(--d2t)">D2</div>
-      <div class="dim-name">分子引擎</div>
+      <div class="dim-name">靶向治疗</div>
       <div class="dim-score-badge" id="badge-d2">0 – 2 分</div>
     </div>
     <div class="var-block" style="border-top:none">
-      <div class="var-q">具有LM特异性循证依据的CNS穿透性TKI可及性</div>
-      <div class="var-hint">评分反映治疗可及性，而非单纯基因变异状态。Zhang等（Front Oncol 2022）证实TKI治疗代际的预后意义超过单纯基因状态——在现代治疗时代，治疗可及性是主要预后驱动因素。</div>
+      <div class="var-q">是否存在能穿透血脑屏障的TKI治疗方案</div>
+      <div class="var-hint">评分反映治疗可及性，而非单纯基因变异状态——当前可用的有效CNS活性靶向药才是预后决定因素。</div>
       <div class="opts">
         <button class="opt" onclick="pick('mol',0,this,'green')" data-k="mol">
           <div class="opt-label">有效CNS活性TKI可用 &nbsp;·&nbsp; 0 分</div>
-          <div class="opt-sub">例如：一/二线奥希替尼（EGFR敏感突变）；洛拉替尼（ALK/ROS1）；具有LM特异性证据的阿来替尼（ALK）——仍有强效CNS活性靶向选择</div>
+          <div class="opt-sub">例如：EGFR突变可使用3代TKI（奥希替尼、阿美替尼、伏美替尼），包括 1代/2代TKI耐药后 T790M+ 切换或剂量加倍方案；ALK融合可用洛拉替尼；ROS1融合可用恩曲替尼/洛拉替尼/瑞泊替尼；其他驱动基因（MET、RET、BRAF、NTRK）有对应CNS活性靶向药</div>
         </button>
         <button class="opt" onclick="pick('mol',1,this,'amber')" data-k="mol">
           <div class="opt-label">CNS活性欠佳或不确定 &nbsp;·&nbsp; 1 分</div>
-          <div class="opt-sub">例如：耐药后更换的后线TKI；CNS穿透率有限；缺乏LM特异性临床试验数据——仍有靶向选择，但LM疗效不确定</div>
+          <div class="opt-sub">例如：EGFR 1代/2代TKI耐药后改用 埃万妥单抗 联合培美曲塞与铂类方案；ALK 1代/2代TKI耐药后改用阿来替尼/赛瑞替尼/布格替尼；或 HER2、其他驱动基因CNS证据有限的靶向选择</div>
         </button>
         <button class="opt" onclick="pick('mol',2,this,'red')" data-k="mol">
           <div class="opt-label">无有效CNS活性方案 &nbsp;·&nbsp; 2 分</div>
-          <div class="opt-sub">非AGA患者（KRAS、STK11等驱动基因，无获批CNS穿透性靶向药）；或AGA患者靶向治疗线已全部耗尽——依赖化疗或免疫治疗</div>
+          <div class="opt-sub">例如：EGFR 3代TKI耐药后无有效CNS方案；ALK全线耐药；ROS1全线耐药；以及 KRAS、STK11 等无获批CNS活性靶向药的非AGA患者——主要依赖化疗或免疫治疗</div>
         </button>
       </div>
     </div>
@@ -257,7 +255,7 @@
   <div class="dim-card" id="card-d3">
     <div class="dim-head">
       <div class="dim-dot" style="background:var(--d3);color:var(--d3t)">D3</div>
-      <div class="dim-name">解剖负荷</div>
+      <div class="dim-name">颅内肿瘤负荷</div>
       <div class="dim-score-badge" id="badge-d3">0 – 2 分</div>
     </div>
     <div class="var-block" style="border-top:none">
@@ -265,8 +263,8 @@
       <div class="var-hint">依据EANO-ESMO分型（Le Rhun等，Ann Oncol 2017）。基于LM诊断时基线MRI的增强T1或FLAIR序列进行评估。</div>
       <div class="opts">
         <button class="opt" onclick="pick('mri',0,this,'green')" data-k="mri">
-          <div class="opt-label">线性强化 / A型 &nbsp;·&nbsp; 0 分</div>
-          <div class="opt-sub">沿脑表面或脊髓管呈薄层、光滑线性强化——弥漫性CSF播散，无局灶性肿瘤结节；CSF流动受阻风险较低</div>
+          <div class="opt-label">无强化或线性强化（A型）&nbsp;·&nbsp; 0 分</div>
+          <div class="opt-sub">无异常软脑膜强化，或沿脑表面/脊髓管呈薄层光滑的线性强化——弥漫性CSF播散，无局灶性肿瘤结节；CSF流动受阻风险较低</div>
         </button>
         <button class="opt" onclick="pick('mri',1,this,'red')" data-k="mri">
           <div class="opt-label">结节性或混合型 / B–C型 &nbsp;·&nbsp; 1 分</div>
@@ -294,7 +292,7 @@
   <div class="dim-card" id="card-d4">
     <div class="dim-head">
       <div class="dim-dot" style="background:var(--d4);color:var(--d4t)">D4</div>
-      <div class="dim-name">液体动力学</div>
+      <div class="dim-name">脑脊液动力学</div>
       <div class="dim-score-badge" id="badge-d4">0 – 2 分</div>
     </div>
     <div class="var-block" style="border-top:none">
@@ -312,15 +310,15 @@
       </div>
     </div>
     <div class="var-block">
-      <div class="var-q">CSF开放压 / 症状性脑积水</div>
-      <div class="var-hint">于诊断性腰椎穿刺时测量（侧卧位，充分放松）。满足以下任一条件计1分：OP &gt; 250 mmH₂O，或临床+影像学证实的症状性脑积水需要神经外科会诊（无论记录的OP值）。</div>
+      <div class="var-q">颅内压 / 症状性脑积水</div>
+      <div class="var-hint">于诊断性腰椎穿刺时测量（侧卧位，充分放松）。满足以下任一条件计1分：颅内压 &gt; 250 mmH₂O，或临床+影像学证实的症状性脑积水需要神经外科会诊（无论记录的颅内压数值）。</div>
       <div class="opts">
         <button class="opt" onclick="pick('op',0,this,'green')" data-k="op">
-          <div class="opt-label">OP ≤ 250 mmH₂O，无症状性脑积水 &nbsp;·&nbsp; 0 分</div>
+          <div class="opt-label">颅内压 ≤ 250 mmH₂O，无症状性脑积水 &nbsp;·&nbsp; 0 分</div>
           <div class="opt-sub">颅内压接近正常；无需外科减压的颅高压临床表现（头痛、恶心、步态不稳、认知改变）</div>
         </button>
         <button class="opt" onclick="pick('op',1,this,'red')" data-k="op">
-          <div class="opt-label">OP &gt; 250 mmH₂O 或症状性脑积水 &nbsp;·&nbsp; 1 分</div>
+          <div class="opt-label">颅内压 &gt; 250 mmH₂O 或症状性脑积水 &nbsp;·&nbsp; 1 分</div>
           <div class="opt-sub">明确颅内高压或症状性脑积水。该阈值具有神经外科意义，在合适临床情境下可提示评估CSF分流可能性。</div>
         </button>
       </div>
@@ -331,7 +329,7 @@
   <div class="dim-card" id="card-d5">
     <div class="dim-head">
       <div class="dim-dot" style="background:var(--d5);color:var(--d5t)">D5</div>
-      <div class="dim-name">生物毒性</div>
+      <div class="dim-name">颅内肿瘤生物活性</div>
       <div class="dim-score-badge" id="badge-d5">0 – 1 分</div>
     </div>
     <div class="var-block" style="border-top:none">
@@ -362,12 +360,11 @@
       </div>
       <div class="stats-grid">
         <div class="s-box"><div class="s-val" id="rs-score">—</div><div class="s-lbl">CSF评分总分</div></div>
-        <div class="s-box"><div class="s-val" id="rs-mos">—</div><div class="s-lbl">队列中位OS</div></div>
-        <div class="s-box"><div class="s-val">0.741</div><div class="s-lbl">C指数（n=123）</div></div>
+        <div class="s-box"><div class="s-val" id="rs-tier" style="font-size:16px;line-height:1.3">—</div><div class="s-lbl">风险分层</div></div>
       </div>
       <div class="dim-row" id="dim-row"></div>
       <div class="guidance-box" id="guidance-box">
-        <div class="guidance-title">临床决策框架</div>
+        <div class="guidance-title">说明</div>
         <div id="guidance-text"></div>
       </div>
       <div class="actions">
@@ -378,9 +375,8 @@
   </div>
 
   <div class="footer">
-    <p><strong>脑脊液系统衰竭评分（CSF评分）</strong> · 仅供医师主导的研究及探索性风险评估，不替代临床判断或多学科评估</p>
+    <p><strong>脑膜转移危险评分（CSF评分）</strong> · 仅供医师主导的研究及探索性风险评估，不替代临床判断或多学科评估</p>
     <p style="margin-top:4px">预设评分框架 · C指数 0.741（95% CI 0.705–0.779）· n=123 细胞学确诊 NSCLC-LM</p>
-    <p style="margin-top:4px">低危（0–2分）中位OS 20.5月 · 中危（3–6分）12.6月 · 高危（≥7分或KPS&lt;60）4.5月 · Log-rank p&lt;0.001</p>
     <p style="margin-top:8px"><a href="https://github.com/xutaosmmu/csf-score" target="_blank" rel="noopener">GitHub</a> · 使用本工具请引用原始发表文献</p>
     <p style="margin-top:4px;opacity:0.7">CSF评分 v1.0 — 与预印本版本对应，2026 年 5 月</p>
   </div>
@@ -427,16 +423,17 @@ function render(){
   if(risk)showResult(risk,total,d1,d2,d3,d4,d5);
   else document.getElementById('result-wrap').style.display='none';
 }
+const GENERIC_GUIDANCE=`本评分为结构化预后评估工具。临床管理决策应由多学科评估与个体化临床判断指导。`;
 const RESULTS={
-  low:{title:'低危组',sub:'总分 0–2 · 预后相对良好',mos:'20.5 个月',
+  low:{title:'低危组',sub:'总分 0–2',
     bg:'var(--green-bg)',border:'var(--green-border)',text:'var(--green-text)',iconBg:'#C0DD97',iconText:'#173404',icon:'↑',
-    guidance:`本评分结果支持在多学科框架内进行结构化风险分层。具体治疗决策——包括鞘内治疗可及性、神经外科干预选择以及全身治疗优化——应结合临床判断、多学科评估及个体化患者因素综合考量。`},
-  inter:{title:'中危组',sub:'总分 3–6 · 预后异质性较大',mos:'12.6 个月',
+    guidance:GENERIC_GUIDANCE},
+  inter:{title:'中危组',sub:'总分 3–6',
     bg:'var(--amber-bg)',border:'var(--amber-border)',text:'var(--amber-text)',iconBg:'#FAC775',iconText:'#412402',icon:'~',
-    guidance:`本评分结果支持在多学科框架内进行结构化风险分层。中危组内预后差异较大；个体维度评分剖析（而非仅依赖总分）可辅助制定个体化诊疗规划。具体治疗决策应结合临床判断及多学科评估。`},
-  high:{title:'高危组',sub:'总分 ≥ 7 或 KPS &lt; 60',mos:'4.5 个月',
+    guidance:GENERIC_GUIDANCE},
+  high:{title:'高危组',sub:'总分 ≥ 7 或 KPS &lt; 60',
     bg:'var(--red-bg)',border:'var(--red-border)',text:'var(--red-text)',iconBg:'#F7C1C1',iconText:'#501313',icon:'↓',
-    guidance:`本评分结果支持在多学科框架内进行结构化风险分层。高危层级提示生存期显著缩短；治疗规划、治疗强度及支持治疗优先级应结合临床判断、多学科评估及个体化患者因素综合权衡。`}
+    guidance:GENERIC_GUIDANCE}
 };
 function showResult(risk,total,d1,d2,d3,d4,d5){
   const r=RESULTS[risk],card=document.getElementById('result-card');
@@ -446,10 +443,10 @@ function showResult(risk,total,d1,d2,d3,d4,d5){
   document.getElementById('res-title').textContent=r.title;
   document.getElementById('res-sub').innerHTML=S.kps===2?'KPS &lt; 60 已触发门控机制——直接归入高危组，无需继续计算其余维度':'总分 = '+total+' / 10';
   document.getElementById('rs-score').textContent=S.kps===2?total+' ★':total;
-  document.getElementById('rs-mos').textContent=r.mos;
+  document.getElementById('rs-tier').textContent=r.title;
   document.querySelectorAll('.s-box').forEach(b=>b.style.background='rgba(255,255,255,0.25)');
   document.getElementById('guidance-box').style.background='rgba(255,255,255,0.2)';
-  document.getElementById('dim-row').innerHTML=`<span>D1 宿主耐受性: <strong>${d1}</strong></span><span>D2 分子引擎: <strong>${d2}</strong></span><span>D3 解剖负荷: <strong>${d3}</strong></span><span>D4 液体动力学: <strong>${d4}</strong></span><span>D5 生物毒性: <strong>${d5}</strong></span>`;
+  document.getElementById('dim-row').innerHTML=`<span>D1 全身情况: <strong>${d1}</strong></span><span>D2 靶向治疗: <strong>${d2}</strong></span><span>D3 颅内肿瘤负荷: <strong>${d3}</strong></span><span>D4 脑脊液动力学: <strong>${d4}</strong></span><span>D5 颅内肿瘤生物活性: <strong>${d5}</strong></span>`;
   document.getElementById('guidance-text').innerHTML=r.guidance;
   const wrap=document.getElementById('result-wrap');
   wrap.style.display='block';
